@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kejutan Untuk Anis</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            color: white;
+        }
+
+        /* Latar belakang bintang */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(white, rgba(255,255,255,0)) 0 0 / 3px 3px;
+            background-repeat: repeat;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        /* Kotak Kata Laluan */
+        #login-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            z-index: 10;
+        }
+
+        input {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            margin-top: 10px;
+            outline: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* Kandungan Utama (Sorok dulu) */
+        #main-content {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Bentuk Love */
+        .heart {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            background-color: #ff4d4d;
+            transform: rotate(-45deg);
+            animation: heartbeat 1.2s infinite;
+            box-shadow: 0 0 50px #ff4d4d;
+            cursor: pointer;
+        }
+
+        .heart::before, .heart::after {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background-color: #ff4d4d;
+            border-radius: 50%;
+        }
+
+        .heart::before { top: -75px; left: 0; }
+        .heart::after { left: 75px; top: 0; }
+
+        @keyframes heartbeat {
+            0% { transform: rotate(-45deg) scale(1); }
+            15% { transform: rotate(-45deg) scale(1.1); }
+            100% { transform: rotate(-45deg) scale(1); }
+        }
+
+        /* Gaya Percikan (Particles) */
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            animation: explode 1s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
+        }
+
+        .message { margin-top: 100px; font-size: 24px; }
+    </style>
+</head>
+<body>
+
+    <div class="stars"></div>
+
+    <div id="login-box">
+        <h3>Siapakah yang Anis sayang?</h3>
+        <input type="password" id="passInput" placeholder="Masukkan nama...">
+        <br>
+        <button onclick="checkPass()">Masuk</button>
+    </div>
+
+    <div id="main-content">
+        <div class="heart" onclick="createBurst(event)"></div>
+        <div class="message">I Love You, Anis ❤️</div>
+    </div>
+
+    <script>
+        // Fungsi semak password
+        function checkPass() {
+            const pass = document.getElementById('passInput').value.toLowerCase();
+            if (pass === "adam") {
+                document.getElementById('login-box').style.display = 'none';
+                document.getElementById('main-content').style.display = 'flex';
+            } else {
+                alert("Salah tu! Cuba lagi...");
+            }
+        }
+
+        // Fungsi percikan love
+        function createBurst(e) {
+            for (let i = 0; i < 15; i++) {
+                const p = document.createElement('div');
+                p.innerHTML = "❤️"; // Guna emoji love sebagai percikan
+                p.className = 'particle';
+                
+                // Set arah rawak untuk percikan
+                const x = (Math.random() - 0.5) * 300;
+                const y = (Math.random() - 0.5) * 300;
+                p.style.setProperty('--x', `${x}px`);
+                p.style.setProperty('--y', `${y}px`);
+                
+                // Letak kedudukan mengikut mouse/klik
+                p.style.left = e.clientX + 'px';
+                p.style.top = e.clientY + 'px';
+                
+                document.body.appendChild(p);
+                
+                // Buang element selepas animasi habis
+                setTimeout(() => p.remove(), 1000);
+            }
+        }
+    </script>
+</body>
+</html>     
